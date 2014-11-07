@@ -27,16 +27,16 @@ public class QueueThread_Debug extends Thread {
 			double p = Math.random();
 			if (p < 0.6) {
 				n_enq++;
-				long t = System.currentTimeMillis();
-				local_q.add(thread_no*100+i);
-				q.enq(thread_no*100+i);
-				enq_time += System.currentTimeMillis() - t;
+				local_q.add(thread_no*25000+i);
+				long t = System.nanoTime();
+				q.enq(thread_no*25000+i);
+				enq_time += System.nanoTime() - t;
 			}
 			else {
 				n_deq++;
-				long t = System.currentTimeMillis();
+				long t = System.nanoTime();
 				q.deq();
-				deq_time += System.currentTimeMillis() - t;
+				deq_time += System.nanoTime() - t;
 			}
 		}
 	}

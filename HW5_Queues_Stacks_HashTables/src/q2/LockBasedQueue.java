@@ -35,7 +35,6 @@ public class LockBasedQueue<T> extends MyQueue<T> {
 		} finally {
 			enqLock.unlock();
 		}
-		
 	}
 
 	@Override

@@ -23,15 +23,15 @@ public class QueueThread extends Thread {
 			double p = Math.random();
 			if (p < 0.6) {
 				n_enq++;
-				long t = System.currentTimeMillis();
+				long t = System.nanoTime();
 				q.enq(rgen.nextInt(100001));
-				enq_time += System.currentTimeMillis() - t;
+				enq_time += System.nanoTime() - t;
 			}
 			else {
 				n_deq++;
-				long t = System.currentTimeMillis();
+				long t = System.nanoTime();
 				q.deq();
-				deq_time += System.currentTimeMillis() - t;
+				deq_time += System.nanoTime() - t;
 			}
 		}
 	}
