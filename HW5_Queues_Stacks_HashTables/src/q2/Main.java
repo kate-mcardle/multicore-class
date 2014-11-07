@@ -11,10 +11,11 @@ public class Main {
 //		System.out.println("\n");
 //		evaluate_queue("lock-free");
 //		System.out.println("\n");
-//		debug_stack_single_thread();
+		evaluate_stack("lock-based");
+		System.out.println("\n");
 		evaluate_stack("simple-lock-free");
-		
-
+		System.out.println("\n");
+		evaluate_stack("elim-lock-free");
 	}
 
 	public static void evaluate_queue(String type) {
@@ -179,20 +180,23 @@ public class Main {
 	public static void evaluate_stack(String type) {
 		System.out.println("Evaluating " + type + " stack +++++++++++++++++++");
 		int total_ops = 25000;
-		int[] n_threads_arr = {2, 3, 4, 5, 6};
+		int[] n_threads_arr = new int[]{2, 3, 4, 5, 6};
 		for (int t = 0; t < n_threads_arr.length; t++) {
 			int n_threads = n_threads_arr[t];
 			System.out.println("For " + n_threads + " threads: ------------------------");
 			MyStack<Integer> s = null;
 			// debug:
-			Stack<Integer> union_s = new Stack<Integer>();
-			Stack<Integer> popped_s = new Stack<Integer>();
+//			Stack<Integer> union_s = new Stack<Integer>();
+//			Stack<Integer> popped_s = new Stack<Integer>();
 			
 			if (type.equals("lock-based")) {
 				s = new LockBasedStack<Integer>();
 			}
 			else if (type.equals("simple-lock-free")) {
 				s = new SimpleLockFreeStack<Integer>();
+			}
+			else if (type.equals("elim-lock-free")) {
+				s = new ElimLockFreeStack<Integer>(n_threads);
 			}
 			else {
 				System.err.println("ERROR: no such queue implemented");
@@ -206,7 +210,7 @@ public class Main {
 			
 			for (int i = 1; i < 100; i++) {
 				s.push(-i);
-				union_s.push(-i);
+//				union_s.push(-i);
 			}
 			
 			int r = total_ops % n_threads;
@@ -230,8 +234,8 @@ public class Main {
 					push_time += threads[i].push_time;
 					pop_time += threads[i].push_time;
 					// debug:
-					union_s.addAll(threads[i].local_s);
-					popped_s.addAll(threads[i].local_popped);
+//					union_s.addAll(threads[i].local_s);
+//					popped_s.addAll(threads[i].local_popped);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -242,12 +246,12 @@ public class Main {
 			System.out.println("Overall time taken = " + s_time + " ns");
 			System.out.println("Overall throughput: " + throughput + " ops/s");
 			
-			// debug:
-			union_s.removeAll(popped_s);
-			if (union_s.containsAll(s.toStack())) {
-				System.out.println("s matches union s");
-			}
-			else { System.out.println("bug!!! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"); }
+//			// debug:
+//			union_s.removeAll(popped_s);
+//			if (union_s.containsAll(s.toStack())) {
+//				System.out.println("s matches union s");
+//			}
+//			else { System.out.println("bug!!! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"); }
 //			System.out.println("shared s: " + s);
 //			System.out.println("union s: " + union_s);
 //			System.out.println("popped s: " + popped_s);

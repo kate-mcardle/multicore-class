@@ -13,8 +13,8 @@ public class StackThread extends Thread {
 	protected long pop_time;
 	
 	// debug:
-	protected Stack<Integer> local_s;
-	protected Stack<Integer> local_popped;
+//	protected Stack<Integer> local_s;
+//	protected Stack<Integer> local_popped;
 	
 	public StackThread(MyStack<Integer> s, int n_ops, int thread_no) {
 		this.s = s;
@@ -24,8 +24,8 @@ public class StackThread extends Thread {
 		push_time = pop_time = 0;
 		
 		// debug:
-		local_s = new Stack<Integer>();
-		local_popped = new Stack<Integer>();
+//		local_s = new Stack<Integer>();
+//		local_popped = new Stack<Integer>();
 	}
 	
 	public void run() {
@@ -34,7 +34,7 @@ public class StackThread extends Thread {
 			if (p < 0.6) {
 				n_push++;
 				// debug:
-				local_s.push(thread_no*250000+i);
+//				local_s.push(thread_no*250000+i);
 				// end debug
 				long t = System.nanoTime();
 				s.push(thread_no*250000+i);
@@ -46,7 +46,7 @@ public class StackThread extends Thread {
 				Integer val = s.pop();
 				pop_time += System.nanoTime() - t;
 				// debug:
-				local_popped.push(val);
+//				local_popped.push(val);
 			}
 		}
 	}
